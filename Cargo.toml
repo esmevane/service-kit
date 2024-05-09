@@ -6,6 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+axum = { version = "0.7.5", features = ["ws", "tracing", "tokio"] }
+axum-extra = { version = "0.9", features = ["typed-header"] }
 chrono = { version = "0.4.33", features = ["serde"] }
 clap = { version = "4.5.4", features = ["derive", "env"] }
 color-eyre = "0.6.2"
@@ -13,6 +15,7 @@ config = "0.14.0"
 crossterm = { version = "0.27.0", features = ["event-stream", "serde"] }
 dirs = "5.0.1"
 futures = "0.3.30"
+mime_guess = "2.0.4"
 rand = "0.8"
 ratatui = { version = "0.26.2", features = [
   "all-widgets",
@@ -20,6 +23,8 @@ ratatui = { version = "0.26.2", features = [
   "serde",
   "crossterm",
 ] }
+reqwest = { version = "0.12", features = ["json"] }
+rust-embed = { version = "8", features = ["axum-ex"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 service-manager = { version = "0.6.1", features = ["clap", "serde"] }
@@ -33,6 +38,7 @@ strum = { version = "0.26.2", features = ["derive"] }
 thiserror = "1.0.59"
 tokio = { version = "1.37.0", features = ["full"] }
 tokio-util = "0.7.10"
+tower-http = "0.5.2"
 tracing = { version = "0.1.40", features = ["log", "log-always"] }
 tracing-subscriber = { version = "0.3.18", features = [
   "chrono",
