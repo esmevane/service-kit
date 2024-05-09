@@ -1,16 +1,14 @@
-mod health;
-
-use axum::Router;
+use axum::{routing::get, Router};
 use std::net::SocketAddr;
 
 use crate::settings::NetworkSettings;
 
-pub async fn app(config: NetworkSettings) -> Router {
-    Router::new().merge(health::router(config.clone()).await)
+pub async fn router(_config: NetworkSettings) -> Router {
+    Router::new().route("/health", get(|| async { "OK" }))
 }
 
 pub async fn init(config: NetworkSettings) -> crate::Result<()> {
-    let app = app(config.clone()).await;
+    let app = router(config.clone()).await;
     let listener = config.listener().await?;
 
     axum::serve(

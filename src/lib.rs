@@ -42,9 +42,11 @@ pub async fn run() -> Result<()> {
         settings::Command::Client(client_details) => {
             tracing::info!("Client command");
 
-            // let client = client::Client::init(client_details)?;
-
-            // client.run().await?;
+            match client_details.resource {
+                settings::ClientResource::Health => {
+                    client::health(client_details.settings).await?;
+                }
+            }
         }
         settings::Command::Service(service_details) => {
             tracing::info!("Service command");
