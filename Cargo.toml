@@ -14,7 +14,7 @@ crossterm = { version = "0.27.0", features = ["event-stream", "serde"] }
 dirs = "5.0.1"
 futures = "0.3.30"
 rand = "0.8"
-ratatui = { version = "0.25.0", features = [
+ratatui = { version = "0.26.2", features = [
   "all-widgets",
   "macros",
   "serde",

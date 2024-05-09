@@ -1,33 +1,33 @@
 use crossterm::event::{KeyCode, KeyEventKind};
 
-use crate::event::TerminalEvent;
+use crate::tui::event::TerminalEvent;
 
 #[derive(Debug, Clone, Copy)]
 pub enum Action {
-  Changed,
-  Input(crossterm::event::KeyEvent),
-  Mouse(crossterm::event::MouseEvent),
-  Quit,
+    Changed,
+    Input(crossterm::event::KeyEvent),
+    Mouse(crossterm::event::MouseEvent),
+    Quit,
 }
 
 impl TryFrom<TerminalEvent> for Action {
-  type Error = ();
+    type Error = ();
 
-  fn try_from(event: TerminalEvent) -> Result<Self, Self::Error> {
-    match event {
-      TerminalEvent::Key(key_event) => {
-        let code = key_event.code;
-        let kind = key_event.kind;
+    fn try_from(event: TerminalEvent) -> Result<Self, Self::Error> {
+        match event {
+            TerminalEvent::Key(key_event) => {
+                let code = key_event.code;
+                let kind = key_event.kind;
 
-        match (kind, code) {
-          (KeyEventKind::Press, KeyCode::Esc) => Ok(Self::Quit),
-          // How do I get to "a modifier key is pressed"?
-          // And then how do I get to "a modifier key is released"?
-          _ => Ok(Self::Input(key_event)),
+                match (kind, code) {
+                    (KeyEventKind::Press, KeyCode::Esc) => Ok(Self::Quit),
+                    // How do I get to "a modifier key is pressed"?
+                    // And then how do I get to "a modifier key is released"?
+                    _ => Ok(Self::Input(key_event)),
+                }
+            }
+            TerminalEvent::Mouse(mouse_event) => Ok(Self::Mouse(mouse_event)),
+            _ => Err(()),
         }
-      }
-      TerminalEvent::Mouse(mouse_event) => Ok(Self::Mouse(mouse_event)),
-      _ => Err(()),
     }
-  }
 }

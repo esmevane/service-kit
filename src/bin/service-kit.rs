@@ -1,4 +1,4 @@
 #[tokio::main]
-async fn main() -> Result<(), Errors> {
+async fn main() -> Result<(), service_kit::Errors> {
     service_kit::run().await
 }

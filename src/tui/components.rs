@@ -1,6 +1,3 @@
-/// The game component.
-pub mod game;
-
 /// A full-screen counter.
 pub mod display;
 
@@ -10,7 +7,7 @@ pub mod input;
 /// The window which manages the display and the input.
 pub mod window;
 
-use crate::{action::Action, config::Config};
+use crate::tui::{action::Action, config::Config};
 use color_eyre::Result;
 use ratatui::layout::Rect;
 
@@ -21,12 +18,12 @@ use ratatui::layout::Rect;
 // });
 #[derive(Clone, Debug)]
 pub struct ActionContext {
-  pub action_tx: tokio::sync::mpsc::UnboundedSender<Action>,
-  pub config: Config,
-  pub action: Action,
+    pub action_tx: tokio::sync::mpsc::UnboundedSender<Action>,
+    pub config: Config,
+    pub action: Action,
 }
 
 pub trait Component: std::fmt::Debug {
-  fn view(&self, frame: &mut ratatui::Frame, area: Rect);
-  fn update(&mut self, action: ActionContext) -> Result<Option<Action>>;
+    fn view(&self, frame: &mut ratatui::Frame, area: Rect);
+    fn update(&mut self, action: ActionContext) -> Result<Option<Action>>;
 }
