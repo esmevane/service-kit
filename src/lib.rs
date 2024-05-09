@@ -1,17 +1,11 @@
 mod errors;
 mod settings;
+mod telemetry;
 mod tui;
 
-pub use errors::Error;
+use color_eyre::eyre::Result;
 
-mod telemetry {
-    use tracing_subscriber::EnvFilter;
-    pub fn init() {
-        tracing_subscriber::fmt()
-            .with_env_filter(EnvFilter::from_default_env())
-            .init();
-    }
-}
+pub use errors::Error;
 
 pub async fn run() -> Result<(), Error> {
     telemetry::init();
