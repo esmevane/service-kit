@@ -2,7 +2,7 @@ use crossterm::event::{KeyCode, KeyEventKind};
 
 use crate::tui::event::TerminalEvent;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Action {
     Input(crossterm::event::KeyEvent),
     Mouse(crossterm::event::MouseEvent),

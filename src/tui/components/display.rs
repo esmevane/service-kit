@@ -27,7 +27,9 @@ impl Display {
 
 impl Component for Display {
     fn update(&mut self, context: ActionContext) -> crate::Result<Option<Action>> {
-        self.text.push(format!("{:?}", context.action));
+        if context.action != Action::Update {
+            self.text.push(format!("{:?}", context.action));
+        }
 
         self.clock.update(context.clone())
     }
