@@ -5,12 +5,12 @@ use std::net::SocketAddr;
 
 use crate::settings::NetworkSettings;
 
-pub async fn app(config: NetworkSettings) -> Router {
+pub async fn router(config: NetworkSettings) -> Router {
     Router::new().merge(assets::router(config.clone()).await)
 }
 
 pub async fn init(config: NetworkSettings) -> crate::Result<()> {
-    let app = app(config.clone()).await;
+    let app = router(config.clone()).await;
     let listener = config.listener().await?;
 
     axum::serve(
