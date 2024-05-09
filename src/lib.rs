@@ -38,7 +38,7 @@ pub async fn run() -> Result<()> {
                 service_details
                     .settings
                     .service_label
-                    .unwrap_or_else(|| format!("com.{}.service", settings.cli.global.app_name))
+                    .unwrap_or_else(|| format!("local.service.{}", settings.cli.global.app_name))
                     .parse()?,
             )?;
 

@@ -9,7 +9,17 @@ pub struct Service {
 
 impl Service {
     pub fn init(label: ServiceLabel) -> crate::Result<Self> {
-        let manager = <dyn ServiceManager>::native()?;
+        let mut manager = <dyn ServiceManager>::native()?;
+
+        match manager.set_level(ServiceLevel::User) {
+            Ok(_) => {}
+            Err(_) => {
+                tracing::warn!(
+                    "Failed to set user level service manager, defaulting to system level"
+                );
+                manager = <dyn ServiceManager>::native()?;
+            }
+        }
 
         Ok(Self { label, manager })
     }
