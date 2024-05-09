@@ -1,14 +1,28 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+mod errors;
+mod settings;
+mod terminal;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+use sqlx::Execute;
+use tracing_subscriber::EnvFilter;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+pub use errors::Errors;
+
+pub async fn main() -> Result<(), Errors> {
+    tracing_subscriber::fmt()
+        .with_env_filter(EnvFilter::from_default_env())
+        .init();
+
+    tracing::info!("Starting up");
+
+    let settings = settings::Settings::parse()?;
+
+    match settings.cli.command {
+        settings::Command::Debug => {
+            tracing::info!("Debugging");
+
+            println!("{:#?}", settings);
+        }
     }
+
+    Ok(())
 }

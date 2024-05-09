@@ -6,3 +6,38 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+chrono = { version = "0.4.33", features = ["serde"] }
+clap = { version = "4.5.4", features = ["derive", "env"] }
+color-eyre = "0.6.2"
+config = "0.14.0"
+crossterm = { version = "0.27.0", features = ["event-stream", "serde"] }
+dirs = "5.0.1"
+futures = "0.3.30"
+rand = "0.8"
+ratatui = { version = "0.25.0", features = [
+  "all-widgets",
+  "macros",
+  "serde",
+  "crossterm",
+] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sqlx = { version = "0.7.3", features = [
+  "sqlite",
+  "uuid",
+  "tls-rustls",
+  "chrono",
+] }
+strum = { version = "0.26.2", features = ["derive"] }
+thiserror = "1.0.59"
+tokio = { version = "1.37.0", features = ["full"] }
+tokio-util = "0.7.10"
+tracing = { version = "0.1.40", features = ["log", "log-always"] }
+tracing-subscriber = { version = "0.3.18", features = [
+  "chrono",
+  "json",
+  "env-filter",
+  "serde",
+  "serde_json",
+] }
+tui-textarea = "0.4.0"
