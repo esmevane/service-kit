@@ -137,7 +137,7 @@ pub struct Settings {
 }
 
 impl Settings {
-    pub fn parse() -> Result<Self, crate::errors::Errors> {
+    pub fn parse() -> Result<Self, crate::errors::Error> {
         tracing::info!("Parsing CLI arguments");
         let cli = Cli::parse();
 

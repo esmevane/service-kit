@@ -2,7 +2,7 @@ mod errors;
 mod settings;
 mod tui;
 
-pub use errors::Errors;
+pub use errors::Error;
 
 mod telemetry {
     use tracing_subscriber::EnvFilter;
@@ -13,7 +13,7 @@ mod telemetry {
     }
 }
 
-pub async fn run() -> Result<(), Errors> {
+pub async fn run() -> Result<(), Error> {
     telemetry::init();
 
     tracing::info!("Starting up");
