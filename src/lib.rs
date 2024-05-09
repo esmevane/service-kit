@@ -26,6 +26,11 @@ pub async fn run() -> Result<(), Errors> {
 
             println!("{:#?}", settings);
         }
+        settings::Command::Tui => {
+            tracing::info!("Starting TUI");
+
+            tui::init().await.unwrap();
+        }
     }
 
     Ok(())

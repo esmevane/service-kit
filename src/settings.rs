@@ -18,6 +18,7 @@ pub struct Cli {
 #[clap(rename_all = "kebab-case")]
 pub enum Command {
     Debug,
+    Tui,
 }
 
 #[derive(Clone, Debug)]
