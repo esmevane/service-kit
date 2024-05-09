@@ -3,6 +3,7 @@ use std::path::PathBuf;
 use clap::{Parser, ValueEnum};
 use config::{Config, ValueKind};
 use serde::Deserialize;
+use service_manager::ServiceManagerKind;
 
 /// A CLI application that helps do non-standard AzerothCore db tasks
 #[derive(Clone, Debug, Parser)]
@@ -11,7 +12,26 @@ pub struct Cli {
     pub command: Command,
 
     #[clap(flatten)]
-    global: GlobalOpts,
+    pub global: GlobalOpts,
+}
+
+#[derive(Clone, Debug, Parser)]
+pub struct GlobalOpts {
+    /// If you want to override the program name.
+    #[clap(env = "CARGO_PKG_NAME", short, long)]
+    pub app_name: String,
+
+    /// The path to the configuration root.
+    #[clap(short, long)]
+    pub config: Option<String>,
+
+    /// What environment to run the program in.
+    #[clap(short, long, default_value = "development")]
+    pub environment: Environment,
+
+    /// Enable verbose output.
+    #[clap(short = 'v', long = "verbose")]
+    pub verbose: bool,
 }
 
 #[derive(Clone, Debug, Parser)]
@@ -19,6 +39,39 @@ pub struct Cli {
 pub enum Command {
     Debug,
     Tui,
+    Service(Service),
+}
+
+#[derive(Clone, Debug, Parser)]
+#[clap(rename_all = "kebab-case")]
+pub struct Service {
+    /// Control the service itself.
+    #[clap(subcommand)]
+    pub operation: ServiceOperation,
+    #[clap(flatten)]
+    pub settings: ServiceSettings,
+}
+
+#[derive(Clone, Debug, Parser)]
+pub struct ServiceSettings {
+    /// The service label to use. Defaults to the app name.
+    #[clap(long)]
+    pub service_label: Option<String>,
+    /// The kind of service manager to use. Defaults to system native.
+    #[clap(long, value_enum)]
+    pub service_manager: Option<ServiceManagerKind>,
+    /// Install system-wide. If not set, attempts to install for the current user.
+    #[clap(long)]
+    pub system: bool,
+}
+
+#[derive(Clone, Debug, Parser)]
+#[clap(rename_all = "kebab-case")]
+pub enum ServiceOperation {
+    Install,
+    Uninstall,
+    Start,
+    Stop,
 }
 
 #[derive(Clone, Debug)]
@@ -36,29 +89,10 @@ impl std::str::FromStr for NumberOrString {
     }
 }
 
-#[derive(Clone, Debug, Parser)]
-struct GlobalOpts {
-    /// If you want to override the program name.
-    #[clap(env = "CARGO_PKG_NAME", short, long)]
-    app_name: String,
-
-    /// The path to the configuration root.
-    #[clap(short, long)]
-    config: Option<String>,
-
-    /// What environment to run the program in.
-    #[clap(short, long, default_value = "development")]
-    environment: Environment,
-
-    /// Enable verbose output.
-    #[clap(short = 'v', long = "verbose")]
-    verbose: bool,
-}
-
 #[derive(Clone, Copy, Debug, Default, Deserialize, strum::Display, ValueEnum)]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
-enum Environment {
+pub enum Environment {
     #[default]
     Development,
     Production,
