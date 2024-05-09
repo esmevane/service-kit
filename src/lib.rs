@@ -1,14 +1,31 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+mod errors;
+mod settings;
+mod telemetry;
+mod tui;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub use errors::Error;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+pub type Result<T> = color_eyre::eyre::Result<T, Error>;
+
+pub async fn run() -> Result<()> {
+    telemetry::init();
+
+    tracing::info!("Starting up");
+
+    let settings = settings::Settings::parse()?;
+
+    match settings.cli.command {
+        settings::Command::Debug => {
+            tracing::info!("Debugging");
+
+            println!("{:#?}", settings);
+        }
+        settings::Command::Tui => {
+            tracing::info!("Starting TUI");
+
+            tui::init().await?;
+        }
     }
+
+    Ok(())
 }
