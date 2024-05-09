@@ -10,7 +10,7 @@ use color_eyre::Result;
 use event::TerminalEvent;
 use terminal::Terminal;
 
-pub async fn run() -> Result<()> {
+pub async fn init() -> Result<()> {
     // Create an application.
     let (action_tx, mut action_rx) = tokio::sync::mpsc::unbounded_channel();
     let mut app = App::new(action_tx.clone());

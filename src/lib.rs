@@ -1,6 +1,6 @@
 mod errors;
 mod settings;
-mod terminal;
+mod tui;
 
 pub use errors::Errors;
 
