@@ -1,3 +1,6 @@
+///A clock that tracks the current time.
+pub mod clock;
+
 /// A full-screen counter.
 pub mod display;
 
@@ -8,7 +11,6 @@ pub mod input;
 pub mod window;
 
 use crate::tui::{action::Action, config::Config};
-use color_eyre::Result;
 use ratatui::layout::Rect;
 
 // let tx = context.action_tx.clone();
@@ -25,5 +27,5 @@ pub struct ActionContext {
 
 pub trait Component: std::fmt::Debug {
     fn view(&self, frame: &mut ratatui::Frame, area: Rect);
-    fn update(&mut self, action: ActionContext) -> Result<Option<Action>>;
+    fn update(&mut self, action: ActionContext) -> crate::Result<Option<Action>>;
 }

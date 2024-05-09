@@ -4,10 +4,10 @@ use crate::tui::event::TerminalEvent;
 
 #[derive(Debug, Clone, Copy)]
 pub enum Action {
-    Changed,
     Input(crossterm::event::KeyEvent),
     Mouse(crossterm::event::MouseEvent),
     Quit,
+    Update,
 }
 
 impl TryFrom<TerminalEvent> for Action {
@@ -15,6 +15,7 @@ impl TryFrom<TerminalEvent> for Action {
 
     fn try_from(event: TerminalEvent) -> Result<Self, Self::Error> {
         match event {
+            TerminalEvent::Tick => Ok(Self::Update),
             TerminalEvent::Key(key_event) => {
                 let code = key_event.code;
                 let kind = key_event.kind;

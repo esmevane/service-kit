@@ -6,11 +6,10 @@ mod event;
 mod terminal;
 
 use app::App;
-use color_eyre::Result;
 use event::TerminalEvent;
 use terminal::Terminal;
 
-pub async fn init() -> Result<()> {
+pub async fn init() -> crate::Result<()> {
     // Create an application.
     let (action_tx, mut action_rx) = tokio::sync::mpsc::unbounded_channel();
     let mut app = App::new(action_tx.clone());

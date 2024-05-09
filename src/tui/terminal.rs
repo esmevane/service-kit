@@ -1,4 +1,4 @@
-use color_eyre::{eyre::WrapErr, Result};
+use color_eyre::eyre::WrapErr;
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
     terminal::{EnterAlternateScreen, LeaveAlternateScreen},
@@ -38,7 +38,7 @@ pub struct Terminal {
 
 impl Terminal {
     /// Constructs a new instance of [`Tui`].
-    pub fn create() -> Result<Self> {
+    pub fn create() -> crate::Result<Self> {
         let (tx, rx) = tokio::sync::mpsc::unbounded_channel();
         let tx = tx.clone();
 
@@ -111,15 +111,14 @@ impl Terminal {
                 break;
             }
         }
-        // self.task.abort();
-        // self.tx.close();
-        // self.rx.close();
+        self.task.abort();
+        self.rx.close();
     }
 
     /// Initializes the terminal interface.
     ///
     /// It enables the raw mode and sets terminal properties.
-    pub fn enter(&mut self) -> Result<()> {
+    pub fn enter(&mut self) -> crate::Result<()> {
         crossterm::terminal::enable_raw_mode()?;
         crossterm::execute!(io::stderr(), EnterAlternateScreen, EnableMouseCapture)?;
 
@@ -142,7 +141,7 @@ impl Terminal {
     ///
     /// This function is also used for the panic hook to revert
     /// the terminal properties if unexpected errors occur.
-    fn reset() -> Result<()> {
+    fn reset() -> crate::Result<()> {
         crossterm::terminal::disable_raw_mode()?;
         crossterm::execute!(io::stderr(), LeaveAlternateScreen, DisableMouseCapture)?;
         Ok(())
@@ -151,17 +150,15 @@ impl Terminal {
     /// Exits the terminal interface.
     ///
     /// It disables the raw mode and reverts back the terminal properties.
-    pub fn exit(&mut self) -> Result<()> {
+    pub fn exit(&mut self) -> crate::Result<()> {
         Self::reset()?;
         self.terminal.show_cursor()?;
+        self.stop();
         Ok(())
     }
 
-    pub async fn next(&mut self) -> Result<TerminalEvent> {
-        self.rx
-            .recv()
-            .await
-            .ok_or(color_eyre::eyre::eyre!("Unable to get event"))
+    pub async fn next(&mut self) -> crate::Result<TerminalEvent> {
+        self.rx.recv().await.ok_or(crate::Error::TerminalEventError)
     }
 }
 

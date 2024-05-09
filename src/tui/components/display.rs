@@ -1,5 +1,4 @@
 use crate::tui::action::Action;
-use color_eyre::Result;
 use ratatui::{
     layout::Alignment,
     style::{Color, Style},
@@ -7,26 +6,30 @@ use ratatui::{
     widgets::{Block, BorderType, Borders, Paragraph},
 };
 
-use super::{ActionContext, Component};
+use super::{clock::Clock, ActionContext, Component};
 
 /// Text display for terminal UI
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct Display {
     pub text: Vec<String>,
+    pub clock: Clock,
 }
 
 impl Display {
     /// Create a new display
     pub fn new() -> Self {
-        Self::default()
+        Self {
+            text: vec![],
+            clock: Clock::new(),
+        }
     }
 }
 
 impl Component for Display {
-    fn update(&mut self, context: ActionContext) -> Result<Option<Action>> {
+    fn update(&mut self, context: ActionContext) -> crate::Result<Option<Action>> {
         self.text.push(format!("{:?}", context.action));
 
-        Ok(None)
+        self.clock.update(context.clone())
     }
 
     fn view(&self, frame: &mut ratatui::Frame, area: ratatui::layout::Rect) {
@@ -57,6 +60,8 @@ impl Component for Display {
                 .style(Style::default().fg(Color::Yellow))
                 .alignment(Alignment::Center),
             area,
-        )
+        );
+
+        self.clock.view(frame, area);
     }
 }

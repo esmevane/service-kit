@@ -3,11 +3,11 @@ mod settings;
 mod telemetry;
 mod tui;
 
-use color_eyre::eyre::Result;
-
 pub use errors::Error;
 
-pub async fn run() -> Result<(), Error> {
+pub type Result<T> = color_eyre::eyre::Result<T, Error>;
+
+pub async fn run() -> Result<()> {
     telemetry::init();
 
     tracing::info!("Starting up");
@@ -23,7 +23,7 @@ pub async fn run() -> Result<(), Error> {
         settings::Command::Tui => {
             tracing::info!("Starting TUI");
 
-            tui::init().await.unwrap();
+            tui::init().await?;
         }
     }
 

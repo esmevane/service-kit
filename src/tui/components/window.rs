@@ -1,10 +1,9 @@
 use crate::tui::action::Action;
-use color_eyre::Result;
 use ratatui::layout::{Constraint, Direction, Layout};
 
 use super::{display::Display, input::Input, ActionContext, Component};
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct Window<'a> {
     pub textarea: Input<'a>,
     pub display: Display,
@@ -21,7 +20,7 @@ impl<'a> Window<'a> {
 }
 
 impl<'a> Component for Window<'a> {
-    fn update(&mut self, context: ActionContext) -> Result<Option<Action>> {
+    fn update(&mut self, context: ActionContext) -> crate::Result<Option<Action>> {
         let text = self.textarea.update(context.clone())?;
         let display = self.display.update(context.clone())?;
 

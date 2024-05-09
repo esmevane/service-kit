@@ -1,5 +1,4 @@
 use crate::tui::action::Action;
-use color_eyre::Result;
 use ratatui::{
     layout::{Constraint, Direction, Layout},
     widgets::{Block, Borders},
@@ -39,7 +38,7 @@ impl<'a> Input<'a> {
 }
 
 impl<'a> Component for Input<'a> {
-    fn update(&mut self, context: ActionContext) -> Result<Option<Action>> {
+    fn update(&mut self, context: ActionContext) -> crate::Result<Option<Action>> {
         match context.action {
             Action::Input(input) => {
                 self.last_input(input);
