@@ -15,4 +15,6 @@ pub enum Error {
     ComponentReceiverLockError,
     #[error("Error getting component messages")]
     ComponentReceiverError,
+    #[error("Unable to initialize tcp listener: {0}")]
+    ListenerInitFailure(std::io::Error),
 }

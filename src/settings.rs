@@ -5,6 +5,8 @@ use config::{Config, ValueKind};
 use serde::Deserialize;
 use service_manager::ServiceManagerKind;
 
+use crate::Error;
+
 /// A CLI application that helps do non-standard AzerothCore db tasks
 #[derive(Clone, Debug, Parser)]
 pub struct Cli {
@@ -39,7 +41,73 @@ pub struct GlobalOpts {
 pub enum Command {
     Debug,
     Tui,
+    Server(Server),
+    Client(Client),
     Service(Service),
+}
+
+#[derive(Clone, Debug, Parser)]
+#[clap(rename_all = "kebab-case")]
+pub struct Server {
+    /// The mode to run the server in.
+    #[clap(subcommand)]
+    pub mode: ServerMode,
+    /// The settings for the server.
+    #[clap(flatten)]
+    pub settings: NetworkSettings,
+}
+
+#[derive(Clone, Debug, Parser, Default)]
+#[clap(rename_all = "kebab-case")]
+pub enum ServerMode {
+    /// Run the server in full mode.
+    #[default]
+    Full,
+    /// Run the server in a web mode.
+    Web,
+    /// Run the server in an api mode.
+    Api,
+}
+
+#[derive(Clone, Debug, Parser)]
+#[clap(rename_all = "kebab-case")]
+pub struct Client {
+    /// Tell the client what resource to connect to.
+    #[clap(subcommand)]
+    pub resource: ClientResource,
+    /// The settings for the client.
+    #[clap(flatten)]
+    pub settings: NetworkSettings,
+}
+
+#[derive(Clone, Debug, Parser)]
+#[clap(rename_all = "kebab-case")]
+pub enum ClientResource {
+    /// The health check api.
+    Health,
+}
+
+#[derive(Clone, Debug, Parser)]
+pub struct NetworkSettings {
+    /// The host to connect to.
+    #[clap(long, default_value = "localhost")]
+    pub host: String,
+
+    /// The port to connect to.
+    #[clap(long, default_value = "8080")]
+    pub port: u16,
+}
+
+impl NetworkSettings {
+    pub fn address(&self) -> String {
+        format!("{}:{}", self.host, self.port)
+    }
+
+    pub async fn listener(&self) -> crate::Result<tokio::net::TcpListener> {
+        tokio::net::TcpListener::bind(self.address())
+            .await
+            .map_err(Error::ListenerInitFailure)
+    }
 }
 
 #[derive(Clone, Debug, Parser)]
@@ -149,13 +217,12 @@ impl Cli {
     }
 }
 
-#[allow(dead_code)]
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize)]
 pub struct Configuration {
     pub db: Option<Database>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize)]
 pub struct Database {
     host: String,
     port: u16,
@@ -164,7 +231,7 @@ pub struct Database {
     database: Option<String>,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Settings {
     pub cli: Cli,
     pub config: Configuration,

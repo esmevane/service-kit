@@ -1,4 +1,6 @@
+mod client;
 mod errors;
+mod server;
 mod service;
 mod settings;
 mod telemetry;
@@ -27,6 +29,22 @@ pub async fn run() -> Result<()> {
             tracing::info!("Starting TUI");
 
             tui::init().await?;
+        }
+        settings::Command::Server(server_details) => {
+            tracing::info!("Server command");
+
+            match server_details.mode {
+                settings::ServerMode::Full => server::init(server_details.settings).await?,
+                settings::ServerMode::Web => server::web::init(server_details.settings).await?,
+                settings::ServerMode::Api => server::api::init(server_details.settings).await?,
+            }
+        }
+        settings::Command::Client(client_details) => {
+            tracing::info!("Client command");
+
+            // let client = client::Client::init(client_details)?;
+
+            // client.run().await?;
         }
         settings::Command::Service(service_details) => {
             tracing::info!("Service command");
