@@ -1,16 +1,16 @@
 // use tower_http::classify::{ServerErrorsAsFailures, SharedClassifier};
-use tracing_subscriber::EnvFilter;
+// use tracing_subscriber::EnvFilter;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-pub fn init() {
-    tracing_subscriber::fmt()
-        .with_env_filter(EnvFilter::from_default_env())
-        .init();
-}
+// pub fn init() {
+//     tracing_subscriber::fmt()
+//         .with_env_filter(EnvFilter::from_default_env())
+//         .init();
+// }
 
 static DEFAULT_ENV_FILTER: &str = "info,emblem_web=debug,tower_http=debug,axum::rejection=trace";
 
-pub(crate) fn init_tracing() {
+pub fn init() {
     tracing_subscriber::registry()
         .with(
             tracing_subscriber::EnvFilter::try_from_default_env()
