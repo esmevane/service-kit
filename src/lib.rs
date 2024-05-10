@@ -31,7 +31,7 @@ pub async fn run() -> Result<()> {
             tui::init().await?;
         }
         settings::Command::Server(server_details) => {
-            tracing::info!("Server command");
+            tracing::info!("Server command: {:?}", server_details);
 
             match server_details.mode {
                 settings::ServerMode::Full => server::init(server_details.settings).await?,
@@ -49,11 +49,16 @@ pub async fn run() -> Result<()> {
             }
         }
         settings::Command::Service(service_details) => {
-            tracing::info!("Service command");
+            tracing::info!("Service command: {:?}", service_details);
 
             // get the whereabouts of the current executable binary
             let program = std::env::current_exe()?;
-            let args = std::env::args_os().skip(1).collect();
+            let args = vec![
+                "-a".into(),
+                settings.cli.global.app_name.clone().into(),
+                "server".into(),
+                "api".into(),
+            ];
             let service = service::Service::init(
                 service_details
                     .settings
