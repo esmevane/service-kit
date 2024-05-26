@@ -19,4 +19,7 @@ pub enum Error {
     ComponentReceiverError,
     #[error("Unable to initialize tcp listener: {0}")]
     ListenerInitFailure(std::io::Error),
+
+    #[error("Unable to parse selected option: {0}")]
+    CliOptionSelectError(#[from] strum::ParseError),
 }

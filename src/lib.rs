@@ -34,17 +34,27 @@ pub async fn run() -> Result<()> {
             tracing::info!("Server command: {:?}", server_details);
 
             match server_details.mode {
-                settings::ServerMode::Full => server::init(server_details.settings).await?,
-                settings::ServerMode::Web => server::web::init(server_details.settings).await?,
-                settings::ServerMode::Api => server::api::init(server_details.settings).await?,
+                Some(mode) => mode.exec(server_details.settings).await?,
+                None => {
+                    tracing::info!("No server mode specified, prompting");
+
+                    settings::ServerMode::select()?
+                        .exec(server_details.settings)
+                        .await?;
+                }
             }
         }
         settings::Command::Client(client_details) => {
             tracing::info!("Client command");
 
             match client_details.resource {
-                settings::ClientResource::Health => {
-                    client::health(client_details.settings).await?;
+                Some(resource) => resource.exec(client_details.settings).await?,
+                None => {
+                    tracing::info!("No client resource specified, prompting");
+
+                    settings::ClientResource::select()?
+                        .exec(client_details.settings)
+                        .await?;
                 }
             }
         }

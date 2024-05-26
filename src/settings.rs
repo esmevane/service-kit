@@ -1,9 +1,11 @@
 use std::path::PathBuf;
+use std::str::FromStr;
 
 use clap::{Parser, ValueEnum};
 use config::{Config, ValueKind};
 use serde::Deserialize;
 use service_manager::ServiceManagerKind;
+use strum::{EnumString, VariantNames};
 
 use crate::Error;
 
@@ -51,14 +53,15 @@ pub enum Command {
 pub struct Server {
     /// The mode to run the server in.
     #[clap(subcommand)]
-    pub mode: ServerMode,
+    pub mode: Option<ServerMode>,
     /// The settings for the server.
     #[clap(flatten)]
     pub settings: NetworkSettings,
 }
 
-#[derive(Clone, Debug, Parser, Default)]
+#[derive(Clone, Debug, Parser, Default, EnumString, VariantNames)]
 #[clap(rename_all = "kebab-case")]
+#[strum(serialize_all = "kebab-case")]
 pub enum ServerMode {
     /// Run the server in full mode.
     #[default]
@@ -69,22 +72,72 @@ pub enum ServerMode {
     Api,
 }
 
+impl ServerMode {
+    pub fn options() -> &'static [&'static str] {
+        Self::VARIANTS
+    }
+
+    pub async fn exec(&self, config: NetworkSettings) -> crate::Result<()> {
+        Ok(match self {
+            ServerMode::Full => crate::server::init(config).await?,
+            ServerMode::Web => crate::server::web::init(config).await?,
+            ServerMode::Api => crate::server::api::init(config).await?,
+        })
+    }
+
+    pub fn select() -> crate::Result<Self> {
+        let options = Self::options();
+        let result = dialoguer::Select::with_theme(&dialoguer::theme::ColorfulTheme::default())
+            .with_prompt("Select a server mode")
+            .default(0)
+            .items(options)
+            .interact()
+            .expect("Unable to select server mode");
+
+        Ok(Self::from_str(options[result])?)
+    }
+}
+
 #[derive(Clone, Debug, Parser)]
 #[clap(rename_all = "kebab-case")]
 pub struct Client {
     /// Tell the client what resource to connect to.
     #[clap(subcommand)]
-    pub resource: ClientResource,
+    pub resource: Option<ClientResource>,
     /// The settings for the client.
     #[clap(flatten)]
     pub settings: NetworkSettings,
 }
 
-#[derive(Clone, Debug, Parser)]
+#[derive(Clone, Debug, Parser, EnumString, VariantNames)]
 #[clap(rename_all = "kebab-case")]
 pub enum ClientResource {
     /// The health check api.
     Health,
+}
+
+impl ClientResource {
+    pub fn options() -> &'static [&'static str] {
+        Self::VARIANTS
+    }
+
+    pub async fn exec(&self, config: NetworkSettings) -> crate::Result<()> {
+        Ok(match self {
+            ClientResource::Health => crate::client::health(config).await?,
+        })
+    }
+
+    pub fn select() -> crate::Result<Self> {
+        let options = Self::options();
+        let result = dialoguer::Select::with_theme(&dialoguer::theme::ColorfulTheme::default())
+            .with_prompt("Select a client resource")
+            .default(0)
+            .items(options)
+            .interact()
+            .expect("Unable to select client resource");
+
+        Ok(Self::from_str(options[result])?)
+    }
 }
 
 #[derive(Clone, Debug, Parser)]
