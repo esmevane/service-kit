@@ -35,7 +35,7 @@ This led to the need for boilerplate, something that can be put into template fo
 - [x] CLI with [clap.rs][], [dialoguer][], [console][] and [indicatif][], for robust CLI interactors and programmatic access needs.
 - [x] A component-driven non-blocking terminal UI made with [ratatui][] and [crossterm][] for anyone who wants to be a little extra about their console work (me; I always do).
 - [x] A web service built with [axum][] and a web client made with [reqwest][] to interact with it.
-- [ ] A wasm-capable build for the client, so you can pop it into whatever host system you like.
+- [x] A wasm-capable build for the client, so you can pop it into whatever host system you like.
 - [ ] A single page application web dashboard built with [vite][], embedded in the web service but deployable independently, which uses the web client.
 - [x] Premade telemetry with [tracing][] setup with configurable logging on by default.
 - [x] Installable out of the box with [service-manager][]

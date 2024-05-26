@@ -6,6 +6,7 @@ mod settings;
 mod telemetry;
 mod tui;
 
+pub use client::WebClient;
 pub use errors::Error;
 
 pub type Result<T> = color_eyre::eyre::Result<T, Error>;
