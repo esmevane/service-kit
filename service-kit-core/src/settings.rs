@@ -141,7 +141,7 @@ impl ClientResource {
     }
 }
 
-#[derive(Clone, Debug, Parser)]
+#[derive(Clone, Debug, Default, Parser)]
 pub struct NetworkSettings {
     /// The host to connect to.
     #[clap(long, default_value = "localhost")]

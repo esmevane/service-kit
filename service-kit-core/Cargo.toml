@@ -1,10 +1,11 @@
-[workspace]
-resolver = "2"
-members = ["service-kit", "service-kit-core", "service-kit-web", "xtask"]
+[package]
+name = "service-kit-core"
+version = "0.1.0"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[workspace.dependencies]
+[dependencies]
 axum = { version = "0.7.5", features = ["ws", "tracing", "tokio"] }
 axum-extra = { version = "0.9", features = ["typed-header"] }
 chrono = { version = "0.4.33", features = ["serde"] }
@@ -19,9 +20,7 @@ dialoguer = { version = "0.11.0", features = [
   "fuzzy-select",
 ] }
 dirs = "5.0.1"
-duct = "0.13"
 futures = "0.3.30"
-getrandom = { version = "0.2", features = ["js"] }
 indicatif = { version = "0.17.8", features = ["tokio"] }
 mime_guess = "2.0.4"
 rand = "0.8"
@@ -35,9 +34,6 @@ reqwest = { version = "0.12", features = ["json"] }
 rust-embed = { version = "8", features = ["axum-ex"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-service-kit = { version = "0.1.0", path = "./service-kit" }
-service-kit-core = { version = "0.1.0", path = "./service-kit-core" }
-service-kit-web = { version = "0.1.0", path = "./service-kit-web" }
 service-manager = { version = "0.6.1", features = ["clap", "serde"] }
 sqlx = { version = "0.7.3", features = [
   "sqlite",

@@ -1,0 +1,17 @@
+[package]
+name = "service-kit-web"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+getrandom = { workspace = true }
+reqwest = { workspace = true }
+wasm-bindgen = { workspace = true }
+wasm-bindgen-futures = { workspace = true }
+
+[dependencies.web-sys]
+version = "0.3.4"
+features = ['Document', 'Element', 'HtmlElement', 'Node', 'Window']
