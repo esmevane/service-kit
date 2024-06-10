@@ -2,18 +2,17 @@ use std::net::SocketAddr;
 
 use axum::Router;
 
-use crate::settings::NetworkSettings;
-
 pub mod api;
 pub mod full;
 pub mod web;
 
-pub async fn init(config: NetworkSettings) -> crate::Result<()> {
+pub async fn init(context: crate::WebContext) -> crate::Result<()> {
     let app = Router::new()
-        .merge(api::router(config.clone()).await)
-        .merge(web::router(config.clone()).await);
+        .merge(web::router(context.clone()).await)
+        .merge(api::router(context.clone()).await)
+        .with_state(context.clone());
 
-    let listener = config.listener().await?;
+    let listener = context.listener().await?;
 
     axum::serve(
         listener,

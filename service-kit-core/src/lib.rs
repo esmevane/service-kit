@@ -1,12 +1,15 @@
 mod client;
+mod context;
 mod errors;
 mod server;
 mod service;
 mod settings;
+mod storage;
 mod telemetry;
 mod tui;
 
 pub use client::WebClient;
+pub use context::WebContext;
 pub use errors::Error;
 
 pub type Result<T> = color_eyre::eyre::Result<T, Error>;

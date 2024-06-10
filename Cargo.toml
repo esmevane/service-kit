@@ -19,6 +19,7 @@ dialoguer = { version = "0.11.0", features = [
   "fuzzy-select",
 ] }
 dirs = "5.0.1"
+derive_builder = "0.20.0"
 duct = "0.13"
 futures = "0.3.30"
 getrandom = { version = "0.2", features = ["js"] }
@@ -44,8 +45,10 @@ sqlx = { version = "0.7.3", features = [
   "uuid",
   "tls-rustls",
   "chrono",
+  "runtime-tokio",
 ] }
 strum = { version = "0.26.2", features = ["derive"] }
+tempfile = "3"
 thiserror = "1.0.59"
 tokio = { version = "1.37.0", features = ["full"] }
 tokio-util = "0.7.10"
@@ -61,3 +64,4 @@ tracing-subscriber = { version = "0.3.18", features = [
 tui-textarea = "0.4.0"
 wasm-bindgen = { version = "0.2.92", features = ["serde-serialize"] }
 wasm-bindgen-futures = "0.4.42"
+zip = "2.1"

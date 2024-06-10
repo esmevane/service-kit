@@ -77,7 +77,7 @@ impl ServerMode {
         Self::VARIANTS
     }
 
-    pub async fn exec(&self, config: NetworkSettings) -> crate::Result<()> {
+    pub async fn exec(&self, config: crate::WebContext) -> crate::Result<()> {
         Ok(match self {
             ServerMode::Full => crate::server::init(config).await?,
             ServerMode::Web => crate::server::web::init(config).await?,
@@ -319,6 +319,12 @@ impl Cli {
 #[derive(Clone, Debug, Deserialize)]
 pub struct Configuration {
     pub db: Option<Database>,
+    pub storage: Option<Storage>,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct Storage {
+    pub path: PathBuf,
 }
 
 #[derive(Clone, Debug, Deserialize)]
@@ -374,12 +380,15 @@ impl Settings {
             Command::Server(server_details) => {
                 tracing::info!("Server command: {:?}", server_details);
 
+                let context =
+                    crate::context::WebContext::new(server_details.settings, self.clone()).await?;
+
                 match server_details.mode {
-                    Some(mode) => mode.exec(server_details.settings).await?,
+                    Some(mode) => mode.exec(context).await?,
                     None => {
                         tracing::info!("No server mode specified, prompting");
 
-                        ServerMode::select()?.exec(server_details.settings).await?;
+                        ServerMode::select()?.exec(context).await?;
                     }
                 }
             }
@@ -418,6 +427,43 @@ impl Settings {
         }
 
         Ok(())
+    }
+
+    #[tracing::instrument(level = "debug", skip(self))]
+    pub fn storage_path(&self) -> PathBuf {
+        tracing::info!("Getting storage path");
+        let path = match &self.config.storage {
+            Some(storage) => storage.path.clone(),
+            None => {
+                // use directories to get a default data directory in user's config path
+                match dirs::config_local_dir() {
+                    Some(mut path) => {
+                        path.push(self.cli.global.app_name.to_lowercase());
+                        path.push("storage.db");
+                        path
+                    }
+                    None => {
+                        // otherwise we start in a temp directory
+                        std::env::temp_dir().join("storage.db")
+                    }
+                }
+            }
+        };
+
+        tracing::info!("Using storage path: {}", path.display());
+
+        // ensure the file and path exist
+        if let Some(parent) = path.parent() {
+            tracing::info!("Ensuring storage path exists: {:?}", parent);
+            std::fs::create_dir_all(parent).expect("Unable to create storage directory");
+        }
+
+        if std::fs::metadata(&path).is_err() {
+            tracing::info!("Ensuring storage file exists: {:?}", path);
+            std::fs::File::create(&path).expect("Unable to create storage file");
+        }
+
+        path
     }
 }
 

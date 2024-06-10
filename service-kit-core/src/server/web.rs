@@ -3,15 +3,13 @@ mod assets;
 use axum::Router;
 use std::net::SocketAddr;
 
-use crate::settings::NetworkSettings;
-
-pub async fn router(config: NetworkSettings) -> Router {
-    Router::new().merge(assets::router(config.clone()).await)
+pub async fn router(context: crate::WebContext) -> Router<crate::WebContext> {
+    Router::new().merge(assets::router(context.clone()).await)
 }
 
-pub async fn init(config: NetworkSettings) -> crate::Result<()> {
-    let app = router(config.clone()).await;
-    let listener = config.listener().await?;
+pub async fn init(context: crate::WebContext) -> crate::Result<()> {
+    let app = router(context.clone()).await.with_state(context.clone());
+    let listener = context.listener().await?;
 
     axum::serve(
         listener,
