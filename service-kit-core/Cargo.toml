@@ -27,6 +27,7 @@ serde_json = { workspace = true }
 service-manager = { workspace = true }
 sqlx = { workspace = true }
 strum = { workspace = true }
+prost = { workspace = true }
 thiserror = { workspace = true }
 tokio = { workspace = true }
 tokio-util = { workspace = true }
@@ -39,3 +40,6 @@ wasm-bindgen-futures = { workspace = true }
 
 [dev-dependencies]
 tempfile = { workspace = true }
+
+[build-dependencies]
+prost-build = { workspace = true }

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package protocol.services;
+
+message HealthCheck {
+  bool ping = 1;
+}
+
+message HealthCheckResponse {
+  string version = 1;
+}
+
+service WebService {
+  rpc Health(HealthCheck) returns (HealthCheckResponse) {}
+}

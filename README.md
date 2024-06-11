@@ -38,8 +38,10 @@ This led to the need for boilerplate, something that can be put into template fo
 - [x] A wasm-capable build for the client, so you can pop it into whatever host system you like.
 - [ ] A single page application web dashboard built with [vite][], embedded in the web service but deployable independently, which uses the web client.
 - [x] Premade telemetry with [tracing][] setup with configurable logging on by default.
-- [x] Installable out of the box with [service-manager][]
-- [ ] Lightweight storage with [sqlx][].
+- [x] A protocol buffer implementation with [prost][] that can be leveraged in any of the clients.
+- [x] Installable out of the box with [service-manager][].
+- [x] Lightweight storage with [sqlx][].
+- [ ] A durable memory cache and lightweight message queue with [rusqlite][].
 
 ## License
 
@@ -66,3 +68,5 @@ This project has a code of conduct for all contributors and contributions. There
 [service-manager]: https://github.com/chipsenkbeil/service-manager-rs
 [reqwest]: https://github.com/seanmonstar/reqwest
 [tracing]: https://github.com/tokio-rs/tracing
+[prost]: https://docs.rs/prost/latest/prost/
+[rusqlite]: https://github.com/rusqlite/rusqlite
