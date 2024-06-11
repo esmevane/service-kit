@@ -19,11 +19,6 @@ include!(concat!("../protocol/output", "/protocol.rs"));
 pub async fn run() -> Result<()> {
     telemetry::init();
 
-    // let check = protocol::services::HealthCheck { ping: true };
-
-    // protocol::;
-    // protocol::services::WebService::serve().await?;
-    // protocol::
     tracing::info!("Starting up");
 
     settings::Settings::parse()?.exec().await?;
