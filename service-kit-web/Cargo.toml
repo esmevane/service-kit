@@ -7,6 +7,7 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
+service-kit-core = { workspace = true }
 getrandom = { workspace = true }
 reqwest = { workspace = true }
 wasm-bindgen = { workspace = true }
@@ -14,4 +15,4 @@ wasm-bindgen-futures = { workspace = true }
 
 [dependencies.web-sys]
 version = "0.3.4"
-features = ['Document', 'Element', 'HtmlElement', 'Node', 'Window']
+features = ['Document', 'Element', 'HtmlElement', 'Node', 'Window', 'console']

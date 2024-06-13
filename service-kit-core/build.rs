@@ -46,15 +46,17 @@ fn main() -> Result<()> {
     prost_build.service_generator(Box::new(ServiceTraitGenerator));
     prost_build.out_dir("protocol/output");
 
-    prost_build.type_attribute(
+    let types = [
         "protocol.services.HealthCheck",
-        "#[derive(serde::Serialize, serde::Deserialize)]",
-    );
-
-    prost_build.type_attribute(
         "protocol.services.HealthCheckResponse",
-        "#[derive(serde::Serialize, serde::Deserialize)]",
-    );
+    ];
+
+    for given_type in &types {
+        prost_build.type_attribute(
+            given_type,
+            "#[derive(serde::Serialize, serde::Deserialize)]",
+        );
+    }
 
     prost_build.include_file("protocol.rs");
     prost_build.compile_protos(&["protocol/services.proto"], &["protocol"])?;

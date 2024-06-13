@@ -2395,6 +2395,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "serde-wasm-bindgen"
+version = "0.6.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8302e169f0eddcc139c70f139d19d6467353af16f9fce27e8c30158036a1e16b"
+dependencies = [
+ "js-sys",
+ "serde",
+ "wasm-bindgen",
+]
+
+[[package]]
 name = "serde_derive"
 version = "1.0.201"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2451,38 +2462,9 @@ dependencies = [
 name = "service-kit"
 version = "0.1.0"
 dependencies = [
- "axum",
- "axum-extra",
- "chrono",
- "clap",
- "color-eyre",
- "config",
- "crossterm",
- "dialoguer",
- "dirs 5.0.1",
- "futures",
- "indicatif",
- "mime_guess",
- "rand",
- "ratatui",
- "reqwest",
- "rust-embed",
- "serde",
- "serde_json",
  "service-kit-core",
  "service-kit-web",
- "service-manager",
- "sqlx",
- "strum",
- "thiserror",
  "tokio",
- "tokio-util",
- "tower-http",
- "tracing",
- "tracing-subscriber",
- "tui-textarea",
- "wasm-bindgen",
- "wasm-bindgen-futures",
 ]
 
 [[package]]
@@ -2508,6 +2490,7 @@ dependencies = [
  "reqwest",
  "rust-embed",
  "serde",
+ "serde-wasm-bindgen",
  "serde_json",
  "service-manager",
  "sqlx",
@@ -2530,6 +2513,7 @@ version = "0.1.0"
 dependencies = [
  "getrandom",
  "reqwest",
+ "service-kit-core",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",

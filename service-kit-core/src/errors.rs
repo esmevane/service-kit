@@ -6,6 +6,7 @@ pub enum Error {
     ConfigError(#[from] config::ConfigError),
     #[error("Clap error: {0}")]
     ClapError(#[from] clap::Error),
+    #[cfg(not(target_arch = "wasm32"))]
     #[error("SQLx error: {0}")]
     SqlxError(#[from] sqlx::Error),
     #[error("Storage error: {0}")]
