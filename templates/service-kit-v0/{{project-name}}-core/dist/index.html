@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <title>Webpage</title>
+  </head>
+  <body>
+    <h1>Example index</h1>
+    <script type="module">
+      import init, { health } from "./wasm/{{crate_name}}_web.js";
+      async function run() {
+        await init();
+
+        health("localhost:8080").then((response) => {
+          console.log(response);
+        });
+      }
+
+      run();
+    </script>
+  </body>
+</html>

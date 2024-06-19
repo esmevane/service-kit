@@ -1,0 +1,32 @@
+[package]
+name = "{{project-name}}-web"
+version = "0.1.0"
+edition = "2021"
+publish = false
+push = false
+tag = false
+license = "MIT"
+repository = "https://github.com/esmevane/{{project-name}}"
+authors = ["Joseph McCormick <esmevane@gmail.com>"]
+description = "A service kit for building web services in Rust"
+homepage = "https://esmevane.github.io/{{project-name}}"
+
+[package.metadata.dist]
+dist = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+
+{{project-name}}-proto = { workspace = true }
+getrandom = { workspace = true }
+reqwest = { workspace = true }
+serde = { workspace = true }
+serde-wasm-bindgen = { workspace = true }
+wasm-bindgen = { workspace = true }
+wasm-bindgen-futures = { workspace = true }
+
+[dependencies.web-sys]
+version = "0.3.4"
+features = ['Document', 'Element', 'HtmlElement', 'Node', 'Window']
