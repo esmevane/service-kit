@@ -1,0 +1,19 @@
+{
+  "workspace": {
+    "name": "Service Kit",
+    "members": [
+      {
+        "slug": "service-kit",
+        "path": "./service-kit"
+      }
+    ]
+  },
+  "components": {
+    "mdbook": {
+      "path": "../service-kit-book"
+    }
+  },
+  "styles": {
+    "theme": "axodark"
+  }
+}

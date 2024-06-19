@@ -47,7 +47,7 @@ Service Kit preconfigures multiple kinds of interfaces:
 
 (This is a checklist / todo list until I've fully set these all up.)
 
-- [ ] Release and documentation page managed by [cargo-dist][] and [oranda][].
+- [x] Release process and documentation page managed by [cargo-dist][] and [oranda][].
 - [x] CLI with [clap.rs][], [dialoguer][], [console][] and [indicatif][], for robust CLI interactors and programmatic access needs.
 - [x] A component-driven non-blocking terminal UI made with [ratatui][] and [crossterm][] for anyone who wants to be a little extra about their console work (me; I always do).
 - [x] A web service built with [axum][] and a web client made with [reqwest][] to interact with it.
