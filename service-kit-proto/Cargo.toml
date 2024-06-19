@@ -2,6 +2,11 @@
 name = "service-kit-proto"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+repository = "https://github.com/esmevane/service-kit"
+authors = ["Joseph McCormick <esmevane@gmail.com>"]
+description = "A service kit for building web services in Rust"
+homepage = "https://esmevane.github.io/service-kit"
 
 [dependencies]
 prost = { workspace = true }

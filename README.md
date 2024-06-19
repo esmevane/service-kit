@@ -15,7 +15,11 @@ Service kit is rust template for web services that sets up a lot of common boile
 
 ...And more.
 
-## Reasoning
+## Architecture
+
+Service Kit offers a foundational scaffolding that you can use to quickly launch new projects without worrying as much about the boilerplate work. It gives you a diverse set of components that you can use to grow your program into many different directions, or all at once if you choose.
+
+### Reasoning
 
 Whenever kicking off a new project, there's some things I always tend to put together.
 
@@ -27,7 +31,19 @@ Whenever kicking off a new project, there's some things I always tend to put tog
 
 This led to the need for boilerplate, something that can be put into template form for [cargo-generate][] later.
 
-## Preconfigured tools
+The structure of a Service Kit application is deliberately decoupled on several planes, each plane able to talk to each other locally or through a network. This lets you distribute applications, so a Service Kit application can sit individually on your machine, or on a remote server, or be operated as a cluster behind a load balancer.
+
+Service Kit doesn't make the networking work invisible. What it does is give you the tools and setup to get to your networked, clustered service, with a little less headache.
+
+### Interfaces
+
+Service Kit preconfigures multiple kinds of interfaces:
+
+- Two terminal interfaces, one with Clap and Dialoguer, and a fully setup async component-based TUI with Ratatui.
+- An Axum API interface, which leverage protobuf types managed by Prost by default, but sticks close to the metal so you can throw them out if you like.
+- Two API clients, each built to leverage the same types. One in rust, and one exposed through Typescript via WASM.
+
+### Preconfigured tools
 
 (This is a checklist / todo list until I've fully set these all up.)
 
@@ -42,6 +58,8 @@ This led to the need for boilerplate, something that can be put into template fo
 - [x] Installable out of the box with [service-manager][].
 - [x] Lightweight storage with [sqlx][].
 - [ ] A durable memory cache and lightweight message queue with [rusqlite][].
+- [ ] Premade container definitions, optimized for size and memory footprint.
+- [ ] CI / CD workflows ready to help you proof and ship your code.
 
 ## License
 
