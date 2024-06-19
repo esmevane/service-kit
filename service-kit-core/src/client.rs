@@ -1,15 +1,13 @@
 use crate::settings::NetworkSettings;
+use service_kit_proto::prelude::*;
 
 /// Make a network request with a `NetworkSettings` configuration against the /health endpoint.
 ///
-pub async fn health(config: NetworkSettings) -> crate::Result<()> {
+pub async fn health(config: NetworkSettings) -> crate::Result<HealthCheckResponse> {
     let uri = format!("http://{}/health", config.address());
     let response = reqwest::get(&uri).await?;
-    let body = response.text().await?;
 
-    println!("{}", body);
-
-    Ok(())
+    Ok(response.json::<HealthCheckResponse>().await?)
 }
 
 pub struct WebClient;
@@ -19,7 +17,7 @@ impl WebClient {
         Self
     }
 
-    pub async fn health(&self) -> crate::Result<()> {
+    pub async fn health(&self) -> crate::Result<HealthCheckResponse> {
         health(NetworkSettings {
             host: "localhost".to_string(),
             port: 8080,

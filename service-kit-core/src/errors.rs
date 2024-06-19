@@ -8,6 +8,8 @@ pub enum Error {
     ClapError(#[from] clap::Error),
     #[error("SQLx error: {0}")]
     SqlxError(#[from] sqlx::Error),
+    #[error("Serialization error: {0}")]
+    SerializationError(#[from] serde_json::Error),
     #[error("Storage error: {0}")]
     StorageError(#[from] crate::storage::StorageError),
     #[error("Storage not configured, unable to initialize storage collection")]
