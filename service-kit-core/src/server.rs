@@ -9,11 +9,11 @@ pub mod web;
 pub mod protocol_service {
     pub struct ProtocolService;
 
-    impl crate::protocol::services::WebService for ProtocolService {
+    impl service_kit_proto::prelude::WebService for ProtocolService {
         fn health(
-            _: crate::protocol::services::HealthCheck,
-        ) -> crate::protocol::services::HealthCheckResponse {
-            crate::protocol::services::HealthCheckResponse {
+            _: service_kit_proto::prelude::HealthCheck,
+        ) -> service_kit_proto::prelude::HealthCheckResponse {
+            service_kit_proto::prelude::HealthCheckResponse {
                 version: env!("CARGO_PKG_VERSION").to_string(),
             }
         }

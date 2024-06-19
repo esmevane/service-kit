@@ -1,6 +1,12 @@
 [workspace]
 resolver = "2"
-members = ["service-kit", "service-kit-core", "service-kit-web", "xtask"]
+members = [
+  "service-kit",
+  "service-kit-core",
+  "service-kit-proto",
+  "service-kit-web",
+  "xtask",
+]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -38,8 +44,10 @@ reqwest = { version = "0.12", features = ["json"] }
 rust-embed = { version = "8", features = ["axum-ex"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+serde-wasm-bindgen = "0.6.5"
 service-kit = { version = "0.1.0", path = "./service-kit" }
 service-kit-core = { version = "0.1.0", path = "./service-kit-core" }
+service-kit-proto = { version = "0.1.0", path = "./service-kit-proto" }
 service-kit-web = { version = "0.1.0", path = "./service-kit-web" }
 service-manager = { version = "0.6.1", features = ["clap", "serde"] }
 sqlx = { version = "0.7.3", features = [

@@ -2395,6 +2395,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "serde-wasm-bindgen"
+version = "0.6.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8302e169f0eddcc139c70f139d19d6467353af16f9fce27e8c30158036a1e16b"
+dependencies = [
+ "js-sys",
+ "serde",
+ "wasm-bindgen",
+]
+
+[[package]]
 name = "serde_derive"
 version = "1.0.201"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2502,13 +2513,13 @@ dependencies = [
  "indicatif",
  "mime_guess",
  "prost",
- "prost-build",
  "rand",
  "ratatui",
  "reqwest",
  "rust-embed",
  "serde",
  "serde_json",
+ "service-kit-proto",
  "service-manager",
  "sqlx",
  "strum",
@@ -2520,8 +2531,16 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "tui-textarea",
- "wasm-bindgen",
- "wasm-bindgen-futures",
+]
+
+[[package]]
+name = "service-kit-proto"
+version = "0.1.0"
+dependencies = [
+ "prost",
+ "prost-build",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -2530,6 +2549,9 @@ version = "0.1.0"
 dependencies = [
  "getrandom",
  "reqwest",
+ "serde",
+ "serde-wasm-bindgen",
+ "service-kit-proto",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
