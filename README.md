@@ -45,8 +45,6 @@ Service Kit preconfigures multiple kinds of interfaces:
 
 ### Preconfigured tools
 
-(This is a checklist / todo list until I've fully set these all up.)
-
 - [x] Release process and documentation page managed by [cargo-dist][] and [oranda][].
 - [x] CLI with [clap.rs][], [dialoguer][], [console][] and [indicatif][], for robust CLI interactors and programmatic access needs.
 - [x] A component-driven non-blocking terminal UI made with [ratatui][] and [crossterm][] for anyone who wants to be a little extra about their console work (me; I always do).
@@ -57,6 +55,11 @@ Service Kit preconfigures multiple kinds of interfaces:
 - [x] A protocol buffer implementation with [prost][] that can be leveraged in any of the clients.
 - [x] Installable out of the box with [service-manager][].
 - [x] Lightweight storage with [sqlx][].
+
+### Nice to haves
+
+(This is a checklist / todo list until I've fully set these all up.)
+
 - [ ] A durable memory cache and lightweight message queue with [rusqlite][].
 - [ ] Premade container definitions, optimized for size and memory footprint.
 - [ ] CI / CD workflows ready to help you proof and ship your code.
