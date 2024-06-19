@@ -1,0 +1,3 @@
+[template]
+cargo_generate_version = ">=0.21.0"
+sub_templates = ["templates/service-kit-v0"]

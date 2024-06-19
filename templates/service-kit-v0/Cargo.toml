@@ -1,0 +1,104 @@
+[workspace]
+resolver = "2"
+members = [
+  "{{project-name}}",
+  "{{project-name}}-core",
+  "{{project-name}}-proto",
+  "{{project-name}}-web",
+  "xtask",
+]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[workspace.dependencies]
+
+{{project-name}} = { version = "0.1.0", path = "./{{project-name}}" }
+{{project-name}}-core = { version = "0.1.0", path = "./{{project-name}}-core" }
+{{project-name}}-proto = { version = "0.1.0", path = "./{{project-name}}-proto" }
+{{project-name}}-web = { version = "0.1.0", path = "./{{project-name}}-web" }
+axum = { version = "0.7.5", features = ["ws", "tracing", "tokio"] }
+axum-extra = { version = "0.9", features = ["typed-header"] }
+chrono = { version = "0.4.33", features = ["serde"] }
+clap = { version = "4.5.4", features = ["derive", "env"] }
+color-eyre = "0.6.2"
+config = "0.14.0"
+crossterm = { version = "0.27.0", features = ["event-stream", "serde"] }
+dialoguer = { version = "0.11.0", features = [
+  "history",
+  "fuzzy-matcher",
+  "completion",
+  "fuzzy-select",
+] }
+dirs = "5.0.1"
+derive_builder = "0.20.0"
+duct = "0.13"
+futures = "0.3.30"
+getrandom = { version = "0.2", features = ["js"] }
+indicatif = { version = "0.17.8", features = ["tokio"] }
+mime_guess = "2.0.4"
+prost = "0.12"
+prost-build = "0.12"
+rand = "0.8"
+ratatui = { version = "0.26.2", features = [
+  "all-widgets",
+  "macros",
+  "serde",
+  "crossterm",
+] }
+reqwest = { version = "0.12", features = ["json"] }
+rust-embed = { version = "8", features = ["axum-ex"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde-wasm-bindgen = "0.6.5"
+service-manager = { version = "0.6.1", features = ["clap", "serde"] }
+sqlx = { version = "0.7.3", features = [
+  "sqlite",
+  "uuid",
+  "tls-rustls",
+  "chrono",
+  "runtime-tokio",
+] }
+strum = { version = "0.26.2", features = ["derive"] }
+tempfile = "3"
+thiserror = "1.0.59"
+tokio = { version = "1.37.0", features = ["full"] }
+tokio-util = "0.7.10"
+tower-http = "0.5.2"
+tracing = { version = "0.1.40", features = ["log"] }
+tracing-subscriber = { version = "0.3.18", features = [
+  "chrono",
+  "json",
+  "env-filter",
+  "serde",
+  "serde_json",
+] }
+tui-textarea = "0.4.0"
+wasm-bindgen = { version = "0.2.92", features = ["serde-serialize"] }
+wasm-bindgen-futures = "0.4.42"
+zip = "2.1"
+
+# Config for 'cargo dist'
+[workspace.metadata.dist]
+# The preferred cargo-dist version to use in CI (Cargo.toml SemVer syntax)
+cargo-dist-version = "0.16.0"
+# CI backends to support
+ci = "github"
+# The installers to generate for each app
+installers = ["shell", "homebrew"]
+# Target platforms to build apps for (Rust target-triple syntax)
+targets = [
+  "aarch64-apple-darwin",
+  "x86_64-apple-darwin",
+  "x86_64-unknown-linux-gnu",
+  "x86_64-unknown-linux-musl",
+  "x86_64-pc-windows-msvc",
+]
+# Publish jobs to run in CI
+pr-run-mode = "plan"
+# Whether to install an updater program
+install-updater = true
+
+# The profile that 'cargo dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"

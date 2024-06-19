@@ -15,6 +15,12 @@ Service kit is rust template for web services that sets up a lot of common boile
 
 ...And more.
 
+## Usage
+
+```sh
+cargo generate esmevane/service-kit
+```
+
 ## Architecture
 
 Service Kit offers a foundational scaffolding that you can use to quickly launch new projects without worrying as much about the boilerplate work. It gives you a diverse set of components that you can use to grow your program into many different directions, or all at once if you choose.

@@ -1,0 +1,43 @@
+[package]
+name = "{{project-name}}"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/esmevane/{{project-name}}"
+authors = ["Joseph McCormick <esmevane@gmail.com>"]
+description = "A service kit for building web services in Rust"
+homepage = "https://esmevane.github.io/{{project-name}}"
+
+[dependencies]
+{{project-name}}-core = { workspace = true }
+{{project-name}}-web = { workspace = true }
+axum = { workspace = true }
+axum-extra = { workspace = true }
+chrono = { workspace = true }
+clap = { workspace = true }
+color-eyre = { workspace = true }
+config = { workspace = true }
+crossterm = { workspace = true }
+dialoguer = { workspace = true }
+dirs = { workspace = true }
+futures = { workspace = true }
+indicatif = { workspace = true }
+mime_guess = { workspace = true }
+rand = { workspace = true }
+ratatui = { workspace = true }
+reqwest = { workspace = true }
+rust-embed = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+service-manager = { workspace = true }
+sqlx = { workspace = true }
+strum = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+tokio-util = { workspace = true }
+tower-http = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+tui-textarea = { workspace = true }
+wasm-bindgen = { workspace = true }
+wasm-bindgen-futures = { workspace = true }
