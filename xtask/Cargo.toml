@@ -1,7 +1,18 @@
 [package]
 name = "xtask"
+publish = false
+push = false
+tag = false
 version = "0.1.0"
+license = "MIT"
 edition = "2021"
+repository = "https://github.com/esmevane/service-kit"
+authors = ["Joseph McCormick <esmevane@gmail.com>"]
+description = "A service kit for building web services in Rust"
+homepage = "https://esmevane.github.io/service-kit"
+
+[package.metadata.dist]
+dist = false
 
 [dependencies]
 clap = { workspace = true }
