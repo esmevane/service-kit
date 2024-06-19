@@ -14,7 +14,6 @@ pub use errors::Error;
 
 pub type Result<T> = color_eyre::eyre::Result<T, Error>;
 
-include!(concat!("../protocol/output", "/protocol.rs"));
 
 pub async fn run() -> Result<()> {
     telemetry::init();

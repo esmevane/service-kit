@@ -1,5 +1,4 @@
 use crate::settings::NetworkSettings;
-use wasm_bindgen::prelude::*;
 
 /// Make a network request with a `NetworkSettings` configuration against the /health endpoint.
 ///
@@ -13,7 +12,6 @@ pub async fn health(config: NetworkSettings) -> crate::Result<()> {
     Ok(())
 }
 
-#[wasm_bindgen]
 pub struct WebClient;
 
 impl WebClient {

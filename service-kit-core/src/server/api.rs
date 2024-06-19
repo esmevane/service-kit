@@ -1,14 +1,14 @@
 use axum::{routing::get, Json, Router};
 use std::net::SocketAddr;
 
-use crate::protocol::services::WebService;
+use service_kit_proto::prelude::WebService;
 
 pub async fn router(_context: crate::WebContext) -> Router<crate::WebContext> {
     Router::new().route(
         "/health",
         get(|| {
             let response = super::protocol_service::ProtocolService::health(
-                crate::protocol::services::HealthCheck { ping: true },
+                service_kit_proto::prelude::HealthCheck { ping: true },
             );
 
             async move { Json(response) }

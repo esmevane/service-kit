@@ -25,6 +25,7 @@ rust-embed = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 service-manager = { workspace = true }
+service-kit-proto = { workspace = true }
 sqlx = { workspace = true }
 strum = { workspace = true }
 prost = { workspace = true }
@@ -35,11 +36,6 @@ tower-http = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
 tui-textarea = { workspace = true }
-wasm-bindgen = { workspace = true }
-wasm-bindgen-futures = { workspace = true }
 
 [dev-dependencies]
 tempfile = { workspace = true }
-
-[build-dependencies]
-prost-build = { workspace = true }
