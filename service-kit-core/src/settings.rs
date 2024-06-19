@@ -4,6 +4,7 @@ use std::str::FromStr;
 use clap::{Parser, ValueEnum};
 use config::{Config, ValueKind};
 use serde::Deserialize;
+use serde_json::Value;
 use service_manager::ServiceManagerKind;
 use strum::{EnumString, VariantNames};
 
@@ -122,10 +123,10 @@ impl ClientResource {
         Self::VARIANTS
     }
 
-    pub async fn exec(&self, config: NetworkSettings) -> crate::Result<()> {
-        Ok(match self {
+    pub async fn exec(&self, config: NetworkSettings) -> crate::Result<Value> {
+        Ok(serde_json::to_value(&match self {
             ClientResource::Health => crate::client::health(config).await?,
-        })
+        })?)
     }
 
     pub fn select() -> crate::Result<Self> {
@@ -395,16 +396,18 @@ impl Settings {
             Command::Client(client_details) => {
                 tracing::info!("Client command");
 
-                match client_details.resource {
+                let response = match client_details.resource {
                     Some(resource) => resource.exec(client_details.settings).await?,
                     None => {
                         tracing::info!("No client resource specified, prompting");
 
                         ClientResource::select()?
                             .exec(client_details.settings)
-                            .await?;
+                            .await?
                     }
-                }
+                };
+
+                tracing::info!("{}", response);
             }
             Command::Service(service_details) => {
                 tracing::info!("Service command: {:?}", service_details);
