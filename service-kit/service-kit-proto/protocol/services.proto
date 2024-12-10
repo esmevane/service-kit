@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package protocol.services;
+
+message HealthCheckResponse {
+  string version = 1;
+}
+
+service WebService {
+  rpc Health() returns (HealthCheckResponse) {}
+}

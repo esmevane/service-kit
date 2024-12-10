@@ -1,0 +1,6 @@
+[book]
+authors = ["Joseph McCormick"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Service Kit"
